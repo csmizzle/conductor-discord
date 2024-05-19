@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "conductor-discord"
+version = "0.1.0"
+description = "Discord bot for Conductor Server"
+authors = ["csmizzle <chrissmith700@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+discord-py = "^2.3.2"
+pydantic = "^2.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
