@@ -1,9 +1,9 @@
 """
 Get all historical messages from a channel
 """
-from conductor.models import InternalKnowledgeChat
-from conductor.database.aws import upload_dict_to_s3
-from conductor.agents import market_email_crew
+from conductor_discord.models import InternalKnowledgeChat
+from conductor_discord.utils import send_marketing_crew_request, upload_dict_to_s3
+from conductor_discord.settings import settings
 import discord
 from discord import app_commands
 import os
@@ -29,7 +29,7 @@ async def on_ready():
 @tree.command(
     name="collect",
     description="Collect all messages from a channel",
-    guild=discord.Object(id=1210249806052855868),
+    guild=discord.Object(id=settings.guild_id),
 )
 async def collect(interaction: discord.Interaction, channel_id: str):
     await interaction.response.defer()
@@ -69,12 +69,12 @@ async def collect(interaction: discord.Interaction, channel_id: str):
 @tree.command(
     name="research",
     description="Issue a research task to the market research crew",
-    guild=discord.Object(id=1210249806052855868),
+    guild=discord.Object(id=settings.guild_id),
 )
 async def research(interaction: discord.Interaction, task: str):
     await interaction.response.defer()
-    results = market_email_crew.kickoff({"input": task})
+    results = send_marketing_crew_request(task)
     await interaction.followup.send(results)
 
 
-client.run(os.getenv("DISCORD_TOKEN"))
+client.run(settings.discord_token)
