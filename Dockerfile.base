@@ -7,3 +7,4 @@ COPY ./requirements.txt ./requirements.txt
 RUN pip cache purge && pip install --no-cache-dir -r requirements.txt
 
 COPY ./conductor_discord ./conductor_discord
+COPY ./run_discord_bot.py ./run_discord_bot.py
