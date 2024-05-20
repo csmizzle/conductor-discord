@@ -28,4 +28,4 @@ def send_marketing_crew_request(task: str) -> Union[Response, None]:
         json={"task": task},
     )
     if response.ok:
-        return response
+        return response.json()["output"]
