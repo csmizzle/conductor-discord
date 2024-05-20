@@ -2,6 +2,7 @@
 Send request to the API
 """
 import requests
+from requests.models import Response
 import boto3
 import json
 from conductor_discord.settings import settings
@@ -17,7 +18,7 @@ def upload_dict_to_s3(data: dict, bucket, key):
     s3.put_object(Bucket=bucket, Key=key, Body=json_data)
 
 
-def send_marketing_crew_request(task: str) -> Union[dict, None]:
+def send_marketing_crew_request(task: str) -> Union[Response, None]:
     """
     Sends a request to the marketing crew
     """
