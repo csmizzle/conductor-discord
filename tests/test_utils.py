@@ -8,7 +8,9 @@ import vcr
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 
 
-@vcr.use_cassette(f"{BASEDIR}/casettes/test_marketing_crew.yaml")
+@vcr.use_cassette(
+    f"{BASEDIR}/casettes/test_marketing_crew.yaml", filter_headers=["Authorization"]
+)
 def test_marketing_crew_request():
     """
     Test the marketing crew request
