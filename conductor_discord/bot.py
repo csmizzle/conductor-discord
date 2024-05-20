@@ -75,6 +75,3 @@ async def research(interaction: discord.Interaction, task: str):
     await interaction.response.defer()
     results = send_marketing_crew_request(task)
     await interaction.followup.send(results)
-
-
-client.run(settings.discord_token)
