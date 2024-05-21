@@ -2,7 +2,11 @@
 Get all historical messages from a channel
 """
 from conductor_discord.models import InternalKnowledgeChat
-from conductor_discord.utils import send_marketing_crew_request, upload_dict_to_s3
+from conductor_discord.utils import (
+    send_marketing_crew_request,
+    upload_dict_to_s3,
+    search as search_,
+)
 from conductor_discord.settings import settings
 import discord
 from discord import app_commands
@@ -74,4 +78,15 @@ async def collect(interaction: discord.Interaction, channel_id: str):
 async def research(interaction: discord.Interaction, task: str):
     await interaction.response.defer()
     results = send_marketing_crew_request(task)
+    await interaction.followup.send(results)
+
+
+@tree.command(
+    name="search",
+    description="Search against collected messages and knowledge base",
+    guild=discord.Object(id=settings.guild_id),
+)
+async def search(interaction: discord.Interaction, query: str):
+    await interaction.response.defer()
+    results = search_(query)
     await interaction.followup.send(results)

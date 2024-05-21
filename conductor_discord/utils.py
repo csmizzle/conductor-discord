@@ -29,3 +29,16 @@ def send_marketing_crew_request(task: str) -> Union[Response, None]:
     )
     if response.ok:
         return response.json()["output"]
+
+
+def search(query: str) -> Union[Response, None]:
+    """
+    Searches the knowledge base
+    """
+    response = requests.post(
+        url=settings.conductor_url + "/search/",
+        auth=(settings.conductor_username, settings.conductor_password),
+        json={"query": query},
+    )
+    if response.ok:
+        return response.json()["text"]

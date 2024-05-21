@@ -17,6 +17,3 @@ def test_marketing_crew_request():
     """
     response = send_marketing_crew_request("Tell me about CTOs in McLean, VA.")
     assert response.ok
-
-
-test_marketing_crew_request()
