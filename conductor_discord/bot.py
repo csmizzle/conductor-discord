@@ -83,7 +83,7 @@ async def research(interaction: discord.Interaction, task: str):
 
 @tree.command(
     name="search",
-    description="Search against collected messages and knowledge base",
+    description="Search against Conductor knowledge base",
     guild=discord.Object(id=settings.guild_id),
 )
 async def search(interaction: discord.Interaction, query: str):
