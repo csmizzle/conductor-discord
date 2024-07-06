@@ -1,5 +1,5 @@
-from conductor_discord.bot import client
+from conductor_discord.bot import bot
 import os
 
 if __name__ == "__main__":
-    client.run(os.getenv("DISCORD_TOKEN"))
+    bot.run(os.getenv("DISCORD_BOT_TOKEN"))

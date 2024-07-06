@@ -2,8 +2,8 @@
 PyCord Evrim Bot
 """
 import discord
-import os
 from dotenv import load_dotenv
+from conductor_discord.utils import send_url_marketing_request
 
 load_dotenv()
 bot = discord.Bot()
@@ -19,13 +19,19 @@ async def hello(ctx: discord.ApplicationContext):
     await ctx.respond("Hello!")
 
 
-@bot.slash_command(name="research", description="Get the bot's latency!")
+@bot.slash_command(
+    name="research", description="Submit a URL to kick off the market research team."
+)
 async def research(ctx: discord.ApplicationContext, url: str):
     message = await ctx.send(f"Researching {url}...")
     thread_name = f"{url} Research Thread"
     thread = await message.create_thread(name=thread_name, auto_archive_duration=60)
-    print("Thread ID:", thread.id)
-    await ctx.respond(f"The team has started working! Check {thread_name} for updates!")
-
-
-bot.run(os.getenv("DISCORD_TOKEN"))
+    request = send_url_marketing_request(company_url=url, thread_id=thread.id)
+    if request.ok:
+        await ctx.respond(
+            f"The team has started working! Check {thread_name} for updates!"
+        )
+    else:
+        await ctx.respond(
+            "Something went wrong. Please try again later. @csmizzle help!"
+        )
