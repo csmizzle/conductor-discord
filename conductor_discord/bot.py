@@ -2,10 +2,8 @@
 PyCord Evrim Bot
 """
 import discord
-from dotenv import load_dotenv
 from conductor_discord.utils import send_url_marketing_request
 
-load_dotenv()
 bot = discord.Bot()
 
 
@@ -22,11 +20,24 @@ async def hello(ctx: discord.ApplicationContext):
 @bot.slash_command(
     name="research", description="Submit a URL to kick off the market research team."
 )
-async def research(ctx: discord.ApplicationContext, url: str):
+async def research(
+    ctx: discord.ApplicationContext,
+    url: discord.Option(
+        discord.SlashCommandOptionType.string, "URL to research", required=True
+    ),
+    report_style: discord.Option(
+        discord.SlashCommandOptionType.string,
+        "Report Style",
+        required=True,
+        choices=["Narrative", "Bulleted"],
+    ),
+) -> None:
     message = await ctx.send(f"Researching {url}...")
     thread_name = f"{url} Research Thread"
     thread = await message.create_thread(name=thread_name, auto_archive_duration=60)
-    request = send_url_marketing_request(company_url=url, thread_id=thread.id)
+    request = send_url_marketing_request(
+        company_url=url, thread_id=thread.id, style=report_style.upper()
+    )
     if request.ok:
         await ctx.respond(
             f"The team has started working! Check {thread_name} for updates!"
