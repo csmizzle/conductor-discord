@@ -44,5 +44,5 @@ async def research(
         )
     else:
         await ctx.respond(
-            "Something went wrong. Please try again later. @csmizzle help!"
+            "Something went wrong. Please try again later. <@csmizzle> help!"
         )
