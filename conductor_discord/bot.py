@@ -14,7 +14,9 @@ async def on_ready():
 
 @bot.slash_command(name="hello", description="Say hello to the bot!")
 async def hello(ctx: discord.ApplicationContext):
-    await ctx.respond("Hello!")
+    await ctx.respond(
+        "Service is up and running! Try the /research command to get started."
+    )
 
 
 @bot.slash_command(
@@ -23,20 +25,30 @@ async def hello(ctx: discord.ApplicationContext):
 async def research(
     ctx: discord.ApplicationContext,
     url: discord.Option(
-        discord.SlashCommandOptionType.string, "URL to research", required=True
-    ),
+        discord.SlashCommandOptionType.string,
+        "URL to research, try to include http:// or https://.",
+        required=True,
+    ),  # type: ignore
     report_style: discord.Option(
         discord.SlashCommandOptionType.string,
-        "Report Style",
+        "Report Style for output reports",
         required=True,
         choices=["Narrative", "Bulleted"],
-    ),
+    ),  # type: ignore
+    key_questions: discord.Option(
+        discord.SlashCommandOptionType.string,
+        "Key Questions: questions you'd like to the team to answer. Separate each question with '? '.",
+        required=False,
+    ),  # type: ignore
 ) -> None:
     message = await ctx.send(f"Researching {url}...")
     thread_name = f"{url} Research Thread"
     thread = await message.create_thread(name=thread_name, auto_archive_duration=60)
     request = send_url_marketing_request(
-        company_url=url, thread_id=thread.id, style=report_style.upper()
+        company_url=url,
+        thread_id=thread.id,
+        style=report_style.upper(),
+        key_questions=key_questions.split(" ") if key_questions else None,
     )
     if request.ok:
         await ctx.respond(
