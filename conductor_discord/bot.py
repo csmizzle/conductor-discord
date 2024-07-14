@@ -41,7 +41,7 @@ async def research(
     key_questions: discord.Option(
         discord.SlashCommandOptionType.string,
         "Key Questions: questions you'd like to the team to answer. Separate each question with '? '.",
-        required=False,
+        default=None,
     ),  # type: ignore
 ) -> None:
     # append https:// if not included
