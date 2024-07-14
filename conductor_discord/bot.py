@@ -2,7 +2,10 @@
 PyCord Evrim Bot
 """
 import discord
-from conductor_discord.utils import send_url_marketing_request
+from conductor_discord.utils import (
+    send_url_marketing_request,
+    split_and_format_key_questions,
+)
 
 bot = discord.Bot()
 
@@ -44,11 +47,13 @@ async def research(
     message = await ctx.send(f"Researching {url}...")
     thread_name = f"{url} Research Thread"
     thread = await message.create_thread(name=thread_name, auto_archive_duration=60)
+    if key_questions:
+        key_questions = split_and_format_key_questions(key_questions)
     request = send_url_marketing_request(
         company_url=url,
         thread_id=thread.id,
         style=report_style.upper(),
-        key_questions=key_questions.split(" ") if key_questions else None,
+        key_questions=key_questions,
     )
     if request.ok:
         await ctx.respond(

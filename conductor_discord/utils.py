@@ -7,6 +7,15 @@ from requests.auth import HTTPBasicAuth
 import os
 
 
+def split_and_format_key_questions(input_: str) -> list[str]:
+    split_inputs = input_.split("? ")
+    for idx in range(len(split_inputs)):
+        # reappend question mark if it was removed
+        if not split_inputs[idx].endswith("?"):
+            split_inputs[idx] += "?"
+    return split_inputs
+
+
 def send_url_marketing_request(
     company_url: str,
     thread_id: str,
