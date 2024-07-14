@@ -44,6 +44,9 @@ async def research(
         required=False,
     ),  # type: ignore
 ) -> None:
+    # append https:// if not included
+    if not url.startswith("https://"):
+        url = f"https://{url}"
     message = await ctx.send(f"Researching {url}...")
     thread_name = f"{url} Research Thread"
     thread = await message.create_thread(name=thread_name, auto_archive_duration=60)
