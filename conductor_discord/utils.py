@@ -10,7 +10,7 @@ import os
 def split_and_format_key_questions(input_: str) -> list[str]:
     split_inputs = input_.split("? ")
     for idx in range(len(split_inputs)):
-        # reappend question mark if it was removed
+        # append question mark if it was removed
         if not split_inputs[idx].endswith("?"):
             split_inputs[idx] += "?"
     return split_inputs
@@ -22,7 +22,7 @@ def send_url_marketing_request(
     style: str,
     key_questions: list[str] = None,
 ) -> Response:
-    endpoint = os.getenv("CONDUCTOR_URL") + "/discord/marketing/report/"
+    endpoint = os.getenv("CONDUCTOR_URL") + "/api/v0/marketing/report/"
     return requests.post(
         url=endpoint,
         json={
