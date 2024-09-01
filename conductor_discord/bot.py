@@ -99,7 +99,14 @@ async def research_v2(
         discord.SlashCommandOptionType.string,
         "Report Tone",
         required=True,
-        choices=["Professional", "Informal", "Informational", "Persuasive", "Critical"],
+        choices=[
+            "Professional",
+            "Informal",
+            "Informational",
+            "Analytical",
+            "Persuasive",
+            "Critical",
+        ],
     ),  # type: ignore
     report_pov: discord.Option(
         discord.SlashCommandOptionType.string,
