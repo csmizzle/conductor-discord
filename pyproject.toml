@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "conductor-discord"
-version = "0.1.3"
+version = "0.1.4"
 description = "Discord bot for Conductor Server"
 authors = ["csmizzle <chrissmith700@gmail.com>"]
 readme = "README.md"

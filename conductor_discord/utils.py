@@ -81,3 +81,23 @@ def send_url_marketing_rag_request(
             os.getenv("CONDUCTOR_USERNAME"), os.getenv("CONDUCTOR_PASSWORD")
         ),
     )
+
+
+def send_search(query: str) -> Response:
+    """
+    Search the vector database for the given query.
+
+    Args:
+        query (str): The search query.
+
+    Returns:
+        dict: The search response.
+    """
+    endpoint = os.getenv("CONDUCTOR_URL") + "/api/v1/search/"
+    return requests.post(
+        url=endpoint,
+        json={"search": query},
+        auth=HTTPBasicAuth(
+            os.getenv("CONDUCTOR_USERNAME"), os.getenv("CONDUCTOR_PASSWORD")
+        ),
+    )

@@ -6,6 +6,7 @@ from conductor_discord.utils import (
     send_url_marketing_request,
     split_and_format_key_questions,
     send_url_marketing_rag_request,
+    send_search,
 )
 
 bot = discord.Bot()
@@ -134,6 +135,29 @@ async def research_v2(
         await ctx.respond(
             f"The team has started working! Check {thread_name} for updates!"
         )
+    else:
+        await ctx.respond(
+            "Something went wrong. Please try again later. <@csmizzle> help!"
+        )
+
+
+@bot.slash_command(
+    name="search",
+    description="Search the Evrim knowledge base.",
+)
+async def search(
+    ctx: discord.ApplicationContext,
+    query: discord.Option(
+        discord.SlashCommandOptionType.string,
+        "Search query",
+        required=True,
+    ),  # type: ignore
+) -> None:
+    await ctx.defer()
+    response = send_search(query=query)
+    if response.ok:
+        response_data = response.json()
+        await ctx.followup.send(response_data["response"])
     else:
         await ctx.respond(
             "Something went wrong. Please try again later. <@csmizzle> help!"
