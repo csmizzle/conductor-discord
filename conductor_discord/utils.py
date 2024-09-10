@@ -16,29 +16,6 @@ def split_and_format_key_questions(input_: str) -> list[str]:
     return split_inputs
 
 
-def send_url_marketing_request(
-    company_url: str,
-    thread_id: str,
-    style: str,
-    key_questions: list[str] = None,
-) -> Response:
-    endpoint = os.getenv("CONDUCTOR_URL") + "/api/v0/marketing/report/"
-    return requests.post(
-        url=endpoint,
-        json={
-            "url": company_url,
-            "thread_id": thread_id,
-            "proxy": False,
-            "cache": True,
-            "style": style,
-            "key_questions": key_questions,
-        },
-        auth=HTTPBasicAuth(
-            os.getenv("CONDUCTOR_USERNAME"), os.getenv("CONDUCTOR_PASSWORD")
-        ),
-    )
-
-
 def send_url_marketing_rag_request(
     company_url: str,
     title: str,
@@ -63,7 +40,7 @@ def send_url_marketing_rag_request(
     Returns:
         Response: The response from the marketing RAG system.
     """
-    endpoint = os.getenv("CONDUCTOR_URL") + "/api/v1/discord/marketing/report/"
+    endpoint = os.getenv("CONDUCTOR_URL") + "/discord/marketing/report/"
     return requests.post(
         url=endpoint,
         json={
@@ -93,7 +70,7 @@ def send_search(query: str) -> Response:
     Returns:
         dict: The search response.
     """
-    endpoint = os.getenv("CONDUCTOR_URL") + "/api/v1/search/"
+    endpoint = os.getenv("CONDUCTOR_URL") + "/search/"
     return requests.post(
         url=endpoint,
         json={"search": query},
