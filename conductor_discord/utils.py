@@ -40,7 +40,7 @@ def send_url_marketing_rag_request(
     Returns:
         Response: The response from the marketing RAG system.
     """
-    endpoint = os.getenv("CONDUCTOR_URL") + "/discord/marketing/report/"
+    endpoint = os.getenv("CONDUCTOR_URL") + "/discord/research/"
     return requests.post(
         url=endpoint,
         json={
