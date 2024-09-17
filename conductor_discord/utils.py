@@ -3,7 +3,6 @@ Send request to the API
 """
 import requests
 from requests.models import Response
-from requests.auth import HTTPBasicAuth
 import os
 
 
@@ -92,11 +91,13 @@ def send_search(query: str) -> Response:
     Returns:
         dict: The search response.
     """
+    tokens = get_token(
+        username=os.getenv("CONDUCTOR_USERNAME"),
+        password=os.getenv("CONDUCTOR_PASSWORD"),
+    )
     endpoint = os.getenv("CONDUCTOR_URL") + "/search/"
     return requests.post(
         url=endpoint,
         json={"search": query},
-        auth=HTTPBasicAuth(
-            os.getenv("CONDUCTOR_USERNAME"), os.getenv("CONDUCTOR_PASSWORD")
-        ),
+        headers={"Authorization": f"Bearer {tokens['access']}"},
     )
