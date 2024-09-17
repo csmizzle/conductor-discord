@@ -16,6 +16,26 @@ def split_and_format_key_questions(input_: str) -> list[str]:
     return split_inputs
 
 
+def get_token(
+    username: str,
+    password: str,
+) -> dict:
+    """
+    Retrieves a token from the conductor server.
+    Args:
+        username (str): The username for authentication.
+        password (str): The password for authentication.
+    Returns:
+        response (dict): A dictionary containing the token information.
+    """
+    endpoint = os.getenv("CONDUCTOR_URL") + "/token/"
+    response = requests.post(
+        url=endpoint, json={"username": username, "password": password}
+    )
+    if response.ok:
+        return response.json()
+
+
 def send_url_marketing_rag_request(
     company_url: str,
     title: str,
@@ -40,6 +60,10 @@ def send_url_marketing_rag_request(
     Returns:
         Response: The response from the marketing RAG system.
     """
+    tokens = get_token(
+        username=os.getenv("CONDUCTOR_USERNAME"),
+        password=os.getenv("CONDUCTOR_PASSWORD"),
+    )
     endpoint = os.getenv("CONDUCTOR_URL") + "/discord/research/"
     return requests.post(
         url=endpoint,
@@ -54,9 +78,7 @@ def send_url_marketing_rag_request(
             "tone": tone,
             "point_of_view": point_of_view,
         },
-        auth=HTTPBasicAuth(
-            os.getenv("CONDUCTOR_USERNAME"), os.getenv("CONDUCTOR_PASSWORD")
-        ),
+        headers={"Authorization": f"Bearer {tokens['access']}"},
     )
 
 
